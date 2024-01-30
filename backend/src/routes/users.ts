@@ -10,7 +10,7 @@ router.post(
   [
     check("firstName", "First Name is required").isString(),
     check("lastName", "Last Name is required").isString(),
-    check("email", "Email is required").isString(),
+    check("email", "Email is required").isEmail(),
     check("password", "Password with 6 or more characters required").isLength({
       min: 6,
     }),
@@ -20,10 +20,12 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ message: errors.array() });
     }
+
     try {
       let user = await User.findOne({
         email: req.body.email,
       });
+
       if (user) {
         return res.status(400).json({ message: "User already exists" });
       }
@@ -38,12 +40,13 @@ router.post(
           expiresIn: "1d",
         }
       );
+
       res.cookie("auth_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 86400000,
       });
-      return res.status(200).send({ message: "User Registered OK" });
+      return res.status(200).send({ message: "User registered OK" });
     } catch (error) {
       console.log(error);
       res.status(500).send({ message: "Something went wrong" });
