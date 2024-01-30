@@ -9,9 +9,10 @@ export type SignInFormData = {
 };
 
 const SignIn = () => {
-  const queryClient = useQueryClient();
   const { showToast } = useAppContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const {
     register,
     formState: { errors },

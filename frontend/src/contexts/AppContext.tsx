@@ -8,14 +8,12 @@ type ToastMessage = {
   type: "SUCCESS" | "ERROR";
 };
 
-export type AppContext = {
+type AppContext = {
   showToast: (toastMessage: ToastMessage) => void;
   isLoggedIn: boolean;
 };
 
-export const AppContext = React.createContext<AppContext | undefined>(
-  undefined
-);
+const AppContext = React.createContext<AppContext | undefined>(undefined);
 
 export const AppContextProvider = ({
   children,

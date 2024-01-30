@@ -12,7 +12,9 @@ export const register = async (formData: RegisterFormData) => {
     },
     body: JSON.stringify(formData),
   });
+
   const responseBody = await response.json();
+
   if (!response.ok) {
     throw new Error(responseBody.message);
   }
@@ -39,9 +41,11 @@ export const validateToken = async () => {
   const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
     credentials: "include",
   });
+
   if (!response.ok) {
     throw new Error("Token invalid");
   }
+
   return response.json();
 };
 
@@ -50,6 +54,7 @@ export const signOut = async () => {
     credentials: "include",
     method: "POST",
   });
+
   if (!response.ok) {
     throw new Error("Error during sign out");
   }
