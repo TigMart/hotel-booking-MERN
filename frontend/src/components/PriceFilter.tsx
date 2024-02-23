@@ -1,6 +1,6 @@
 type Props = {
-  selectedPrice?: number;
-  onChange: (value?: number) => void;
+  selectedPrice?: string;
+  onChange: (value?: string) => void;
 };
 
 const PriceFilter = ({ selectedPrice, onChange }: Props) => {
@@ -10,10 +10,10 @@ const PriceFilter = ({ selectedPrice, onChange }: Props) => {
       <select
         className="p-2 border rounded-md w-full"
         value={selectedPrice}
-        onChange={(event) => onChange(event.target.value ? parseInt(event.target.value) : undefined)}
+        onChange={(event) => onChange(event.target.value ? event.target.value : undefined)}
       >
         <option value="">Select Max Price</option>
-        {[50, 100, 200, 300, 500].map((price, index) => (
+        {["50", "100", "200", "300", "500"].map((price, index) => (
           <option key={index} value={price}>
             {price}
           </option>

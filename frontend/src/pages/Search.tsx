@@ -14,7 +14,7 @@ const Search = () => {
   const [selectedStars, setSelectedStars] = useState<string[]>([]);
   const [selectedHotelTypes, setSelectedHotelTypes] = useState<string[]>([]);
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
-  const [selectedPrice, setSelectedPrice] = useState<number | undefined>();
+  const [selectedPrice, setSelectedPrice] = useState<string | undefined>();
   const [sortOption, setSortOption] = useState<string>("");
 
   const searchParams = {
@@ -28,7 +28,7 @@ const Search = () => {
     types: selectedHotelTypes,
     facilities: selectedFacilities,
     maxPrice: selectedPrice,
-    sortOption,
+    sortOption: sortOption,
   };
 
   const { data: hotelData } = useQuery(["searchHotels", searchParams], () => apiClient.searchHotels(searchParams));
@@ -63,7 +63,7 @@ const Search = () => {
           <StarRatingFilter selectedStars={selectedStars} onChange={handleStarsChange} />
           <HotelTypesFilter selectedHotelTypes={selectedHotelTypes} onChange={handleHotelTypesChange} />
           <FacilitiesFilter selectedFacilities={selectedFacilities} onChange={handleFacilityChange} />
-          <PriceFilter selectedPrice={selectedPrice} onChange={(value?: number) => setSelectedPrice(value)} />
+          <PriceFilter selectedPrice={selectedPrice} onChange={(value?: string) => setSelectedPrice(value)} />
         </div>
       </div>
       <div className="flex flex-col gap-5">
