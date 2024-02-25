@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api-client";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 export type SignInFormData = {
   email: string;
@@ -12,6 +12,7 @@ const SignIn = () => {
   const { showToast } = useAppContext();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const location = useLocation();
 
   const {
     register,
@@ -23,7 +24,7 @@ const SignIn = () => {
     onSuccess: async () => {
       showToast({ message: "Sign in Successful!", type: "SUCCESS" });
       await queryClient.invalidateQueries("validateToken");
-      navigate("/");
+      navigate(location.state?.from?.pathname || "/");
     },
     onError: (error: Error) => {
       showToast({ message: error.message, type: "ERROR" });
@@ -45,9 +46,7 @@ const SignIn = () => {
           className="border rounded w-full py-1 px-2 font-normal"
           {...register("email", { required: "This field is required" })}
         ></input>
-        {errors.email && (
-          <span className="text-red-500">{errors.email.message}</span>
-        )}
+        {errors.email && <span className="text-red-500">{errors.email.message}</span>}
       </label>
       <label className="text-gray-700 text-sm font-bold flex-1">
         Password
@@ -62,9 +61,7 @@ const SignIn = () => {
             },
           })}
         ></input>
-        {errors.password && (
-          <span className="text-red-500">{errors.password.message}</span>
-        )}
+        {errors.password && <span className="text-red-500">{errors.password.message}</span>}
       </label>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
@@ -73,10 +70,7 @@ const SignIn = () => {
             Create an account here
           </Link>
         </div>
-        <button
-          type="submit"
-          className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl"
-        >
+        <button type="submit" className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl">
           Login
         </button>
       </div>
